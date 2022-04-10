@@ -17,8 +17,10 @@ export default function Home() {
           <br/><br/>     
           <input type="checkbox" id="check"/>    
           <span>Remember me</span>    
-          <br/><br/>    
-          Forgot <a href="#">Password</a>    
+          <br/><br/>   
+          <input type="button" name="log" id="log" value="Log In Here"/>
+          <br/><br/> 
+           <a href="#">Forgot Password</a>    
       </form>    
     </div>
     </>
