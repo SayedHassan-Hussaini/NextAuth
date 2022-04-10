@@ -12,7 +12,7 @@ export default NextAuth({
         ) {
           return {
             id: 1,
-            username: "Sayed Hassan Hussaini",
+            name: "Sayed Hassan Hussaini",
             email: "test@gmail.com",
           };
         } else {
@@ -26,6 +26,7 @@ export default NextAuth({
   },
   callbacks: {
     async jwt({ user, token }) {
+        console.log("user.....",token)
       if (user) {
         token.id = user.id;
         token.username = user.username;
@@ -33,11 +34,12 @@ export default NextAuth({
       }
       return Promise.resolve(token);
     },
-    async session({ sesstion, token }) {
+    async session({ session, token }) {
+        console.log("to.....",session)
       if (token) {
-        sesstion.id = token.id;
+        session.id = token.id;
       }
-      return Promise.resolve(sesstion);
+      return Promise.resolve(session);
     },
   },
 });

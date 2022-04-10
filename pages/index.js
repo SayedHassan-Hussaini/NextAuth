@@ -1,6 +1,8 @@
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Home() {
+  const { data: session } = useSession();
+  console.log("sesstion...",session)
   async function handleLogin(e) {
     e.preventDefault();
     const formElement = document.getElementById("login");
@@ -11,7 +13,7 @@ export default function Home() {
       password: form.get("pass"),
       redirect: false,
     });
-    console.log("res....", await req.json());
+    console.log("res....", req);
   }
   return (
     <>
