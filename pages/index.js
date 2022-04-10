@@ -1,6 +1,11 @@
+import {useState} from 'react'
 import { signIn, getSession } from "next-auth/react";
+import {useRouter} from 'next/router'
 
- function Home() {
+function Home({data}) {
+
+  const router=useRouter()
+  const [error,setError]=useState(false)
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -11,7 +16,14 @@ import { signIn, getSession } from "next-auth/react";
       password: form.get("pass"),
       redirect: false,
     });
+    if(req.status==200){
+      router.push('/dashboard')
+    }else{
+      setError(true)
+    }
   }
+
+  
   return (
     <>
       <h2>Login Page</h2>
@@ -35,7 +47,7 @@ import { signIn, getSession } from "next-auth/react";
               type="Password"
               name="pass"
               id="Pass"
-              placeholder="Password"
+              placeholder="1234"
             />
           </label>
           <br />
@@ -50,23 +62,26 @@ import { signIn, getSession } from "next-auth/react";
           <br />
           <br />
           <a href="#">Forgot Password</a>
+          {error?<div className='error'>
+            Invaled Email or Password.
+          </div>:""}
         </form>
       </div>
     </>
   );
 }
-export async function getServerSideProps(cxt){
-  const session =await getSession(cxt)
-  if(session){
-    return{
-      redirect:{
-        destination:'/dashboard'
-      }
-    }
-  }else{
-    return{
-      props:{ }
-    }
+export async function getServerSideProps(cxt) {
+  const session = await getSession(cxt);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+      },
+    };
+  } else {
+    return {
+      props: {},
+    };
   }
 }
-export default Home
+export default Home;

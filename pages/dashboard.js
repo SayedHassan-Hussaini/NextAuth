@@ -1,8 +1,17 @@
-import React, {useEffect } from "react";
-import { getSession} from "next-auth/react";
+import React from "react";
+import {signOut ,getSession,useSession} from "next-auth/react";
 
 const Dashboard = () => {
-  return <div>dasbord</div>;
+  const {data:session}=useSession()
+  return (
+    <>
+     <button onClick={()=>{signOut()}} name="log" id="log-out"> Log out </button>
+    <h1 className="wellcome">
+    well come
+      <div>{session?.user?.email}</div>
+    </h1>
+    </>
+  );
 };
  export async function getServerSideProps(context){
    const session =await getSession(context)
