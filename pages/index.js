@@ -1,19 +1,16 @@
-import { signIn, useSession } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 
-export default function Home() {
-  const { data: session } = useSession();
-  console.log("sesstion...",session)
+ function Home() {
+
   async function handleLogin(e) {
     e.preventDefault();
     const formElement = document.getElementById("login");
     const form = new FormData(formElement);
-    console.log("form", form.get("email"), form.get("pass"));
     const req = await signIn("credentials", {
       email: form.get("email"),
       password: form.get("pass"),
       redirect: false,
     });
-    console.log("res....", req);
   }
   return (
     <>
@@ -58,3 +55,18 @@ export default function Home() {
     </>
   );
 }
+export async function getServerSideProps(cxt){
+  const session =await getSession(cxt)
+  if(session){
+    return{
+      redirect:{
+        destination:'/dashboard'
+      }
+    }
+  }else{
+    return{
+      props:{ }
+    }
+  }
+}
+export default Home
